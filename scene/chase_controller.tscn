@@ -1,0 +1,23 @@
+[gd_scene load_steps=2 format=3 uid="uid://bypojo8hkbprf"]
+
+[sub_resource type="GDScript" id="GDScript_w6fmx"]
+script/source = "extends Node3D
+
+const SPEED = 2.0
+
+# Called when the node enters the scene tree for the first time.
+func chase_player(navi_agent, player):
+	var velocity = Vector3.ZERO
+	
+	#navigation
+	navi_agent.set_target_position(player.global_transform.origin)
+	var next_nav_point = navi_agent.get_next_path_position()
+	velocity = (next_nav_point - global_transform.origin).normalized() * SPEED
+	
+	#face direction
+	look_at(Vector3(player.global_transform.origin.x,0,player.global_transform.origin.z), Vector3.UP, true)
+	
+"
+
+[node name="ChaseController" type="Node3D"]
+script = SubResource("GDScript_w6fmx")
